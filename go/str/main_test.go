@@ -36,3 +36,10 @@ func TestOneAway(t *testing.T) {
 		t.Error("OneAway is wrong", test)
 	}
 }
+
+func TestCompressString(t *testing.T) {
+	test := CompressString("mississippi")
+	if (test != "mis2is2ip2i") {
+		t.Error("CompressString is wrong", test)
+	}
+}

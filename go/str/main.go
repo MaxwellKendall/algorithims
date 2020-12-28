@@ -1,15 +1,15 @@
 package main
 
 import (
+	"strconv"
 	"strings"
 	"fmt"
 )
 
 // IsUnique takes a string and returns a boolean
 func IsUnique(s string) bool {
-	arr := strings.Split(s, "")
-	for i, v := range arr {
-		for _, v2 := range arr[:i] {
+	for i, v := range s {
+		for _, v2 := range s[:i] {
 			if v2 == v {
 				fmt.Println(v)
 				return false
@@ -89,10 +89,36 @@ func OneAway(s1 string, s2 string) bool {
 	return false
 }
 
+// CompressString takes a string and returns a string that represents repeated characters like: aa --> a2
+func CompressString(s string) string {
+	arr := strings.Split(s, "")
+	rtrn := ""
+	var prevVal string
+	consecutiveChars := 1
+	for i, v := range arr {
+		if prevVal == v {
+			consecutiveChars++
+		} else if consecutiveChars > 1 {
+			rtrn = rtrn + strconv.Itoa(consecutiveChars) + v
+			consecutiveChars = 1
+		} else {
+			rtrn = rtrn + v
+		}
+
+		if i == len(arr) - 1 && prevVal == v {
+			rtrn = rtrn + strconv.Itoa(consecutiveChars)
+		}
+
+		prevVal = v
+	}
+	return rtrn
+}
+
 func main() {
 	fmt.Println("IsUnique: ", IsUnique("123451"))
 	fmt.Println("IsPermutation: ", IsPermutation("hell", "hellz"))
 	fmt.Println("URLify: ", URLify("google.com/ hello world"))
 	fmt.Println("PalindromePermutation: ", PalindromePermutation("a plan a canal man a panama"))
 	fmt.Println("OneAway: ", OneAway("pale", "bale"))
+	fmt.Println("CompressString: ", CompressString("mississippi"))
 }
