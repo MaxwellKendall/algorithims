@@ -43,3 +43,10 @@ func TestCompressString(t *testing.T) {
 		t.Error("CompressString is wrong", test)
 	}
 }
+
+func TestStringRotation(t *testing.T) {
+	test := StringRotation("mississippi", "ppississiim")
+	if (!test) {
+		t.Error("StringRotation is wrong", test)
+	}
+}

@@ -114,6 +114,38 @@ func CompressString(s string) string {
 	return rtrn
 }
 
+// StringRotation takes two strings and returns a boolean indicating whether inputs are the same chars rotated in different orders
+func StringRotation(s1 string, s2 string) bool {
+	if len(s1) != len(s2) {
+		return false
+	}
+	// first index is s1 & second is s2 
+	occurrencesPerStringByChar := make(map[string][]int)
+	for _, v := range strings.Split(s1, "") {
+		if count, ok := occurrencesPerStringByChar[v]; ok {
+			occurrencesPerStringByChar[v][0] = count[0] + 1
+		} else {
+			occurrencesPerStringByChar[v] = []int{1, 0}
+		}
+	}
+	for _, v := range strings.Split(s2, "") {
+		if count, ok := occurrencesPerStringByChar[v]; ok {
+			occurrencesPerStringByChar[v][1] = count[1] + 1
+		} else {
+			// char only exists in s2
+			return false
+		}
+	}
+
+	for _, value := range occurrencesPerStringByChar {
+		if value[0] != value[1] {
+			return false
+		}
+	}
+
+	return true
+}
+
 func main() {
 	fmt.Println("IsUnique: ", IsUnique("123451"))
 	fmt.Println("IsPermutation: ", IsPermutation("hell", "hellz"))
@@ -121,4 +153,5 @@ func main() {
 	fmt.Println("PalindromePermutation: ", PalindromePermutation("a plan a canal man a panama"))
 	fmt.Println("OneAway: ", OneAway("pale", "bale"))
 	fmt.Println("CompressString: ", CompressString("mississippi"))
+	fmt.Println("StringRotation: ", StringRotation("waterbottle", "erbottlewat"))
 }
