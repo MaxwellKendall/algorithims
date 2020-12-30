@@ -146,7 +146,43 @@ func StringRotation(s1 string, s2 string) bool {
 	return true
 }
 
+// ZeroMatrix takes a matrix (2d array) and returns a matrix where any index in a row w/ a zero, along with that entire row, is zeroed out
+func ZeroMatrix(m [][]int) [][]int {
+	rowAndIndexOfZero := make([]int, 0)
+	
+	for row, v := range m {
+		// O(n^2) unavoidable in this case?
+		for index, v2 := range v {
+			if len(rowAndIndexOfZero) > 0 {
+				break
+			}
+			if v2 == 0 {
+				rowAndIndexOfZero = append(rowAndIndexOfZero, row)
+				rowAndIndexOfZero = append(rowAndIndexOfZero, index)
+			}
+		}
+	}
+
+	if len(rowAndIndexOfZero) > 0 {
+		allZeros := make([]int, len(m[0]))
+		for i := range allZeros {
+			allZeros[i] = 0
+		}
+		// Mutating fn input 👇 (not good)
+		m[rowAndIndexOfZero[0]] = allZeros
+		for row := range m {
+			m[row][rowAndIndexOfZero[1]] = 0
+		}
+		return m
+	}
+	return m
+}
+
 func main() {
+	matrixInput := [][]int{
+		{5, 1, 2, 0},
+		{4, 5, 6, 7},
+	}
 	fmt.Println("IsUnique: ", IsUnique("123451"))
 	fmt.Println("IsPermutation: ", IsPermutation("hell", "hellz"))
 	fmt.Println("URLify: ", URLify("google.com/ hello world"))
@@ -154,4 +190,5 @@ func main() {
 	fmt.Println("OneAway: ", OneAway("pale", "bale"))
 	fmt.Println("CompressString: ", CompressString("mississippi"))
 	fmt.Println("StringRotation: ", StringRotation("waterbottle", "erbottlewat"))
+	fmt.Println("ZeroMatrix: ", ZeroMatrix(matrixInput))
 }

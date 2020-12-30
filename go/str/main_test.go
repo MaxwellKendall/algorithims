@@ -50,3 +50,22 @@ func TestStringRotation(t *testing.T) {
 		t.Error("StringRotation is wrong", test)
 	}
 }
+
+func TestZeroMatrix(t *testing.T) {
+	input := [][]int{
+		{5, 1, 2, 0},
+		{4, 5, 6, 7},
+	}
+	output := [][]int{
+		{0, 0, 0, 0},
+		{4, 5, 6, 0},
+	}
+	test := ZeroMatrix(input)
+	for i, row := range test {
+		for i2, v2 := range row {
+			if v2 != output[i][i2] {
+				t.Error("ZeroMatrix is wrong", test)
+			}
+		}
+	}
+}
