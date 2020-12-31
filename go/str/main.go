@@ -8,6 +8,7 @@ import (
 
 // IsUnique takes a string and returns a boolean
 func IsUnique(s string) bool {
+	// complexity upper bound: O(n)
 	for i, v := range s {
 		for _, v2 := range s[:i] {
 			if v2 == v {
@@ -21,6 +22,7 @@ func IsUnique(s string) bool {
 
 // IsPermutation tells us if a string is a substring of another
 func IsPermutation(s1 string, s2 string) bool {
+	// complexity upper bound: O(2n) or dropping constants to O(n)
 	if (strings.Contains(s2, s1) || strings.Contains(s1, s2)) {
 		return true
 	}
@@ -29,6 +31,7 @@ func IsPermutation(s1 string, s2 string) bool {
 
 // URLify returns a string with urlEncoded spaces
 func URLify(s string) string {
+	// complexity upper bound: O(n)
 	arr := strings.Split(s, "")
 
 	rtrn := ""
@@ -46,6 +49,7 @@ func URLify(s string) string {
 
 // PalindromePermutation returns true if string is palindrome or has potential for palindrome status
 func PalindromePermutation(s string) bool {
+	// complexity upper bound: 0(2n) dropping constants --> O(n)
 	var occurrencesByChar = make(map[string]int)
 	arr := strings.Split(s, "")
 	for _, v := range arr {
@@ -65,6 +69,7 @@ func PalindromePermutation(s string) bool {
 
 // OneAway returns true if input is one char edit (delete/replace/add) away from equivalency
 func OneAway(s1 string, s2 string) bool {
+	// complexity upper bound: O(n)
 	len1 := len(s1)
 	len2 := len(s2)
 	if (len1 + 1 == len2 || len1 - 1 == len2 || len1 == len2) {
@@ -91,6 +96,7 @@ func OneAway(s1 string, s2 string) bool {
 
 // CompressString takes a string and returns a string that represents repeated characters like: aa --> a2
 func CompressString(s string) string {
+	// complexity upper bound: O(n)
 	arr := strings.Split(s, "")
 	rtrn := ""
 	var prevVal string
@@ -116,6 +122,7 @@ func CompressString(s string) string {
 
 // RotateMatrix takes a matrix (2d array representing an image in pixels) and rotates it 90 degrees (❓ confused on expected return for this... ❓)
 func RotateMatrix(m [][]int) [][]int {
+	// complexity upper bound: O(n^2)
 	rtrn := make([][]int, len(m))
 	
 	for row, v := range m {
@@ -136,6 +143,7 @@ func RotateMatrix(m [][]int) [][]int {
 
 // ZeroMatrix takes a matrix (2d array) and returns a matrix where any index in a row w/ a zero, along with that entire row, is zeroed out
 func ZeroMatrix(m [][]int) [][]int {
+	// complexity upper bound: O(n^2)
 	rowAndIndexOfZero := make([]int, 0)
 	
 	for row, v := range m {
@@ -168,6 +176,7 @@ func ZeroMatrix(m [][]int) [][]int {
 
 // StringRotation takes two strings and returns a boolean indicating whether inputs are the same chars rotated in different orders
 func StringRotation(s1 string, s2 string) bool {
+	// complexity upper bound: O(3n) --> dropping constants to --> O(n)
 	if len(s1) != len(s2) {
 		return false
 	}
