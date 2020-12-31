@@ -114,36 +114,24 @@ func CompressString(s string) string {
 	return rtrn
 }
 
-// StringRotation takes two strings and returns a boolean indicating whether inputs are the same chars rotated in different orders
-func StringRotation(s1 string, s2 string) bool {
-	if len(s1) != len(s2) {
-		return false
-	}
-	// first index is s1 & second is s2 
-	occurrencesPerStringByChar := make(map[string][]int)
-	for _, v := range strings.Split(s1, "") {
-		if count, ok := occurrencesPerStringByChar[v]; ok {
-			occurrencesPerStringByChar[v][0] = count[0] + 1
-		} else {
-			occurrencesPerStringByChar[v] = []int{1, 0}
+// RotateMatrix takes a matrix (2d array representing an image in pixels) and rotates it 90 degrees (❓ confused on expected return for this... ❓)
+func RotateMatrix(m [][]int) [][]int {
+	rtrn := make([][]int, len(m))
+	
+	for row, v := range m {
+		// O(n^2) unavoidable in this case?
+		newRow := make([]int, len(m[row]))
+		for i, v2 := range v {
+			newVal := v2 + 90
+			if (newVal > 360) {
+				newVal = newVal - 360
+			}
+			newRow[i] = newVal
 		}
-	}
-	for _, v := range strings.Split(s2, "") {
-		if count, ok := occurrencesPerStringByChar[v]; ok {
-			occurrencesPerStringByChar[v][1] = count[1] + 1
-		} else {
-			// char only exists in s2
-			return false
-		}
+		rtrn[row] = newRow
 	}
 
-	for _, value := range occurrencesPerStringByChar {
-		if value[0] != value[1] {
-			return false
-		}
-	}
-
-	return true
+	return rtrn
 }
 
 // ZeroMatrix takes a matrix (2d array) and returns a matrix where any index in a row w/ a zero, along with that entire row, is zeroed out
@@ -178,6 +166,38 @@ func ZeroMatrix(m [][]int) [][]int {
 	return m
 }
 
+// StringRotation takes two strings and returns a boolean indicating whether inputs are the same chars rotated in different orders
+func StringRotation(s1 string, s2 string) bool {
+	if len(s1) != len(s2) {
+		return false
+	}
+	// first index is s1 & second is s2 
+	occurrencesPerStringByChar := make(map[string][]int)
+	for _, v := range strings.Split(s1, "") {
+		if count, ok := occurrencesPerStringByChar[v]; ok {
+			occurrencesPerStringByChar[v][0] = count[0] + 1
+		} else {
+			occurrencesPerStringByChar[v] = []int{1, 0}
+		}
+	}
+	for _, v := range strings.Split(s2, "") {
+		if count, ok := occurrencesPerStringByChar[v]; ok {
+			occurrencesPerStringByChar[v][1] = count[1] + 1
+		} else {
+			// char only exists in s2
+			return false
+		}
+	}
+
+	for _, value := range occurrencesPerStringByChar {
+		if value[0] != value[1] {
+			return false
+		}
+	}
+
+	return true
+}
+
 func main() {
 	matrixInput := [][]int{
 		{5, 1, 2, 0},
@@ -189,6 +209,7 @@ func main() {
 	fmt.Println("PalindromePermutation: ", PalindromePermutation("a plan a canal man a panama"))
 	fmt.Println("OneAway: ", OneAway("pale", "bale"))
 	fmt.Println("CompressString: ", CompressString("mississippi"))
-	fmt.Println("StringRotation: ", StringRotation("waterbottle", "erbottlewat"))
+	fmt.Println("RotateMatrix: ", RotateMatrix(matrixInput))
 	fmt.Println("ZeroMatrix: ", ZeroMatrix(matrixInput))
+	fmt.Println("StringRotation: ", StringRotation("waterbottle", "erbottlewat"))
 }

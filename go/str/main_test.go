@@ -44,10 +44,22 @@ func TestCompressString(t *testing.T) {
 	}
 }
 
-func TestStringRotation(t *testing.T) {
-	test := StringRotation("mississippi", "ppississiim")
-	if (!test) {
-		t.Error("StringRotation is wrong", test)
+func TestRotateMatrix(t *testing.T) {
+	input := [][]int{
+		{5, 1, 2, 0},
+		{4, 5, 6, 359},
+	}
+	output := [][]int{
+		{95, 91, 92, 90},
+		{94, 95, 96, 89},
+	}
+	test := RotateMatrix(input)
+	for i, row := range test {
+		for i2, v2 := range row {
+			if v2 != output[i][i2] {
+				t.Error("ZeroMatrix is wrong", test)
+			}
+		}
 	}
 }
 
@@ -67,5 +79,12 @@ func TestZeroMatrix(t *testing.T) {
 				t.Error("ZeroMatrix is wrong", test)
 			}
 		}
+	}
+}
+
+func TestStringRotation(t *testing.T) {
+	test := StringRotation("mississippi", "ppississiim")
+	if (!test) {
+		t.Error("StringRotation is wrong", test)
 	}
 }
