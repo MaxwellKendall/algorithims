@@ -174,51 +174,67 @@ func ZeroMatrix(m [][]int) [][]int {
 	return m
 }
 
-// StringRotation takes two strings and returns a boolean indicating whether inputs are the same chars rotated in different orders
+// StringRotation takes two strings and returns a boolean indicating whether inputs are contain the same substrings
 func StringRotation(s1 string, s2 string) bool {
 	// complexity upper bound: O(3n) --> dropping constants to --> O(n)
 	if len(s1) != len(s2) {
 		return false
 	}
-	// first index is s1 & second is s2 
-	occurrencesPerStringByChar := make(map[string][]int)
-	for _, v := range strings.Split(s1, "") {
-		if count, ok := occurrencesPerStringByChar[v]; ok {
-			occurrencesPerStringByChar[v][0] = count[0] + 1
-		} else {
-			occurrencesPerStringByChar[v] = []int{1, 0}
-		}
-	}
-	for _, v := range strings.Split(s2, "") {
-		if count, ok := occurrencesPerStringByChar[v]; ok {
-			occurrencesPerStringByChar[v][1] = count[1] + 1
-		} else {
-			// char only exists in s2
-			return false
+	// step 1: find substr in s2 containing first char of s1
+	firstChar := string(s1[0])
+	// needs to be 2d array where at the end we select the longest item
+	subStrIndices := make([]int, 0)
+	charsAfterFirstChar := 0
+
+	for i, v := range s2 {
+		if string(v) == firstChar {
+			subStrIndices = append(subStrIndices, i)
+			charsAfterFirstChar++
+		} else if charsAfterFirstChar >= 1 {
+			nextChar := string(s1[charsAfterFirstChar])
+			if string(v) == nextChar {
+				subStrIndices = append(subStrIndices, i)
+				if i == len(s2) - 1 {
+					charsAfterFirstChar = len(s2) - 1
+				} else {
+					charsAfterFirstChar++
+				}
+			}
 		}
 	}
 
-	for _, value := range occurrencesPerStringByChar {
-		if value[0] != value[1] {
-			return false
+	if len(subStrIndices) <= 1 {
+		return false
+	}
+
+	newS2 := ""
+
+	for i, v := range s2 {
+		if i == subStrIndices[0] || i == subStrIndices[1] {
+			continue
+		} else {
+			newS2 = newS2 + string(v)
 		}
 	}
 
-	return true
+	fmt.Println(subStrIndices)
+	// fmt.Println(s1[0:charsAfterFirstChar], newS2)
+
+	return IsPermutation(s1[:subStrIndices[1]], newS2)
 }
 
 func main() {
-	matrixInput := [][]int{
-		{5, 1, 2, 0},
-		{4, 5, 6, 7},
-	}
-	fmt.Println("IsUnique: ", IsUnique("123451"))
-	fmt.Println("IsPermutation: ", IsPermutation("hell", "hellz"))
-	fmt.Println("URLify: ", URLify("google.com/ hello world"))
-	fmt.Println("PalindromePermutation: ", PalindromePermutation("a plan a canal man a panama"))
-	fmt.Println("OneAway: ", OneAway("pale", "bale"))
-	fmt.Println("CompressString: ", CompressString("mississippi"))
-	fmt.Println("RotateMatrix: ", RotateMatrix(matrixInput))
-	fmt.Println("ZeroMatrix: ", ZeroMatrix(matrixInput))
-	fmt.Println("StringRotation: ", StringRotation("waterbottle", "erbottlewat"))
+	// matrixInput := [][]int{
+	// 	{5, 1, 2, 0},
+	// 	{4, 5, 6, 7},
+	// }
+	// fmt.Println("IsUnique: ", IsUnique("123451"))
+	// fmt.Println("IsPermutation: ", IsPermutation("hell", "hellz"))
+	// fmt.Println("URLify: ", URLify("google.com/ hello world"))
+	// fmt.Println("PalindromePermutation: ", PalindromePermutation("a plan a canal man a panama"))
+	// fmt.Println("OneAway: ", OneAway("pale", "bale"))
+	// fmt.Println("CompressString: ", CompressString("mississippi"))
+	// fmt.Println("RotateMatrix: ", RotateMatrix(matrixInput))
+	// fmt.Println("ZeroMatrix: ", ZeroMatrix(matrixInput))
+	fmt.Println("StringRotation: ", StringRotation("basketball", "babasktell"))
 }
